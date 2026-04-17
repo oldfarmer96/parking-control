@@ -18,10 +18,7 @@ export const router = createBrowserRouter([
         </Suspense>
       </GuestGuard>
     ),
-    children: [
-      { path: "/login", element: <LoginPage /> },
-      { path: "/register", element: <RegisterPage /> },
-    ],
+    children: [{ path: "/login", element: <LoginPage /> }],
   },
   {
     element: (
@@ -52,6 +49,10 @@ export const router = createBrowserRouter([
       {
         path: "/admin",
         element: <AdminPage />,
+      },
+      {
+        path: "/user-register",
+        element: <RegisterPage />,
       },
     ],
   },
