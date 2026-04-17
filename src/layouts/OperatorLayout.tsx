@@ -33,7 +33,7 @@ const OperatorLayout = () => {
           <Car className="w-6 h-6 text-primary-foreground" />
         </div>
         <span className="font-bold text-xl tracking-tight text-foreground">
-          Parking<span className="text-primary">Ops</span>
+          Parqueo
         </span>
       </div>
 
@@ -107,16 +107,14 @@ const OperatorLayout = () => {
                 <SheetTitle>Menú de Operador</SheetTitle>
                 <SheetDescription />
               </SheetHeader>
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary/70 to-primary/50" />
+              <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-primary via-primary/70 to-primary/50" />
               <SidebarContent />
             </SheetContent>
           </Sheet>
 
           <div className="flex items-center gap-2">
             <Car className="w-5 h-5 text-primary" />
-            <span className="font-bold tracking-tight">
-              Parking<span className="text-primary">Ops</span>
-            </span>
+            {/* <span className="font-bold tracking-tight">Parking</span> */}
           </div>
         </div>
 
@@ -130,7 +128,7 @@ const OperatorLayout = () => {
         </div>
       </main>
 
-      <div className="fixed top-0 left-0 w-full h-[2px] bg-gradient-to-r from-primary via-primary/50 to-transparent z-50 pointer-events-none" />
+      <div className="fixed top-0 left-0 w-full h-[2px] bg-linear-to-r from-primary via-primary/50 to-transparent z-50 pointer-events-none" />
     </div>
   );
 };

@@ -21,7 +21,6 @@ import {
   SelectValue,
 } from "@/presentation/components/ui/select";
 import {
-  Car,
   Loader2,
   Lock,
   Mail,
@@ -318,7 +317,7 @@ const RegisterPage = () => {
         </CardContent>
       </Card>
 
-      <div className="mt-12 p-8 rounded-3xl bg-primary/5 border border-primary/10 flex items-center justify-between overflow-hidden relative group">
+      {/* <div className="mt-12 p-8 rounded-3xl bg-primary/5 border border-primary/10 flex items-center justify-between overflow-hidden relative group">
         <div className="relative z-10">
           <h3 className="text-lg font-bold mb-1">Seguridad de la Plataforma</h3>
           <p className="text-sm text-muted-foreground max-w-md">
@@ -328,7 +327,7 @@ const RegisterPage = () => {
           </p>
         </div>
         <Car className="w-32 h-32 absolute -right-6 -bottom-6 text-primary opacity-5 -rotate-12 transition-transform group-hover:rotate-0 duration-500" />
-      </div>
+      </div> */}
     </div>
   );
 };

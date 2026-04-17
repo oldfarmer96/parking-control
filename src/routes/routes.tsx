@@ -1,5 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
-import { AdminPage, LoginPage, RegisterPage, OperatorPage } from "./lazy";
+import {
+  AdminPage,
+  LoginPage,
+  RegisterPage,
+  OperatorPage,
+  ReportPage,
+} from "./lazy";
 import OperatorLayout from "@/layouts/OperatorLayout";
 import AdminLayout from "@/layouts/AdminLayout";
 import AuthLayout from "@/layouts/AuthLayout";
@@ -8,6 +14,7 @@ import { Suspense } from "react";
 import LazyLoadingPage from "@/presentation/components/LazyLoadingPage";
 import AuthGuard from "@/guards/AuthGuard";
 import RoleGuard from "@/guards/RoleGuard";
+import NotFound from "@/presentation/components/NotFound";
 
 export const router = createBrowserRouter([
   {
@@ -36,7 +43,6 @@ export const router = createBrowserRouter([
         element: <OperatorPage />,
       },
     ],
-
   },
   {
     element: (
@@ -52,9 +58,17 @@ export const router = createBrowserRouter([
         element: <AdminPage />,
       },
       {
+        path: "/reports",
+        element: <ReportPage />,
+      },
+      {
         path: "/user-register",
         element: <RegisterPage />,
       },
     ],
+  },
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ]);

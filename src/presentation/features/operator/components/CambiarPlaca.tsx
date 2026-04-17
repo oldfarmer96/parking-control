@@ -39,7 +39,7 @@ const CambiarPlaca = ({ ticketId, currentPlaca }: CambiarPlacaProps) => {
         onSuccess: () => {
           setOpen(false);
         },
-      }
+      },
     );
   };
 
@@ -55,14 +55,15 @@ const CambiarPlaca = ({ ticketId, currentPlaca }: CambiarPlacaProps) => {
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] border-none shadow-2xl bg-card/80 backdrop-blur-xl animate-in fade-in zoom-in-95 duration-300">
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary/70 to-primary/50" />
+        <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-primary via-primary/70 to-primary/50" />
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Car className="text-primary" />
             Actualizar Placa
           </DialogTitle>
           <DialogDescription>
-            Modifica el número de placa del vehículo. Asegúrate de que sea el correcto.
+            Modifica el número de placa del vehículo. Asegúrate de que sea el
+            correcto.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -84,16 +85,20 @@ const CambiarPlaca = ({ ticketId, currentPlaca }: CambiarPlacaProps) => {
           </div>
         </div>
         <DialogFooter className="gap-2 sm:gap-0">
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             onClick={() => setOpen(false)}
             className="rounded-xl font-bold"
           >
             Cancelar
           </Button>
-          <Button 
-            onClick={handleUpdate} 
-            disabled={updateTicketMutation.isPending || newPlaca === currentPlaca || !newPlaca}
+          <Button
+            onClick={handleUpdate}
+            disabled={
+              updateTicketMutation.isPending ||
+              newPlaca === currentPlaca ||
+              !newPlaca
+            }
             className="rounded-xl font-bold gap-2 px-6 shadow-lg shadow-primary/20"
           >
             {updateTicketMutation.isPending ? (
