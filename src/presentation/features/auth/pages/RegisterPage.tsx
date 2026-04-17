@@ -21,7 +21,6 @@ import {
   SelectValue,
 } from "@/presentation/components/ui/select";
 import {
-  Car,
   Loader2,
   Lock,
   Mail,
