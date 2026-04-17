@@ -46,11 +46,11 @@ export const allNavItems: NavGroup[] = [
             icon: PlusCircle,
             label: "Registrar Nuevo",
           },
-          {
-            to: "/admin/operators",
-            icon: List,
-            label: "Lista de Operadores",
-          },
+          // {
+          //   to: "/admin/operators",
+          //   icon: List,
+          //   label: "Lista de Operadores",
+          // },
         ],
       },
       {

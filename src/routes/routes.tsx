@@ -1,5 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
-import { AdminPage, LoginPage, RegisterPage, OperatorPage } from "./lazy";
+import {
+  AdminPage,
+  LoginPage,
+  RegisterPage,
+  OperatorPage,
+  ReportPage,
+} from "./lazy";
 import OperatorLayout from "@/layouts/OperatorLayout";
 import AdminLayout from "@/layouts/AdminLayout";
 import AuthLayout from "@/layouts/AuthLayout";
@@ -50,6 +56,10 @@ export const router = createBrowserRouter([
       {
         path: "/admin",
         element: <AdminPage />,
+      },
+      {
+        path: "/reports",
+        element: <ReportPage />,
       },
       {
         path: "/user-register",
