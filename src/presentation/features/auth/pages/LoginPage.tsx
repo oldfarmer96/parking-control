@@ -121,10 +121,6 @@ const LoginPage = () => {
           </form>
         </CardContent>
       </Card>
-
-      <p className="text-center text-xs text-muted-foreground/60 mt-6">
-        Sistema de control de estacionamiento
-      </p>
     </div>
   );
 };
