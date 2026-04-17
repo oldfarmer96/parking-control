@@ -1,0 +1,12 @@
+import { lazy } from "react";
+
+export const MainPage = lazy(() => import("@/pages/index"));
+export const AdminPage = lazy(
+  () => import("@/presentation/features/admin/pages/AdminPage"),
+);
+export const LoginPage = lazy(
+  () => import("@/presentation/features/auth/pages/LoginPage"),
+);
+export const RegisterPage = lazy(
+  () => import("@/presentation/features/auth/pages/RegisterPage"),
+);
