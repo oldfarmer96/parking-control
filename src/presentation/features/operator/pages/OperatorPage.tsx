@@ -188,6 +188,7 @@ const OperatorPage = () => {
                       id="monto_cobrado"
                       type="number"
                       step="0.1"
+                      disabled
                       {...register("monto_cobrado")}
                       className="pl-10 h-12 bg-background/50"
                     />

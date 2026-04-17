@@ -47,10 +47,10 @@ const LoginPage = () => {
             <Car className="w-7 h-7 text-primary" strokeWidth={1.5} />
           </div>
           <CardTitle className="text-2xl font-semibold tracking-tight">
-            Parking Control
+            Parqueo
           </CardTitle>
           <CardDescription className="text-muted-foreground">
-            Ingresa tus credenciales para continuar
+            Unidad minera Huinchos Pataccocha
           </CardDescription>
         </CardHeader>
 
