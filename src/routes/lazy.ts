@@ -10,3 +10,7 @@ export const LoginPage = lazy(
 export const RegisterPage = lazy(
   () => import("@/presentation/features/auth/pages/RegisterPage"),
 );
+export const OperatorPage = lazy(
+  () => import("@/presentation/features/operator/pages/OperatorPage"),
+);
+
