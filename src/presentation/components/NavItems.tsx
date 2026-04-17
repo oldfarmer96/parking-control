@@ -2,7 +2,6 @@ import type { UserRole } from "@/core/entities/auth.entity";
 import {
   LayoutDashboard,
   Users,
-  Settings,
   Ticket,
   PlusCircle,
   List,
@@ -35,7 +34,7 @@ export const allNavItems: NavGroup[] = [
       {
         to: "/admin",
         icon: LayoutDashboard,
-        label: "Dashboard",
+        label: "Panel de Control",
         exact: true,
       },
       {
@@ -55,15 +54,26 @@ export const allNavItems: NavGroup[] = [
         ],
       },
       {
-        to: "/admin/tickets",
-        icon: Ticket,
-        label: "Tickets (Global)",
+        label: "Reportes",
+        icon: Users,
+        children: [
+          {
+            to: "/reports",
+            icon: PlusCircle,
+            label: "Reportes",
+          },
+        ],
       },
-      {
-        to: "/admin/settings",
-        icon: Settings,
-        label: "Configuración",
-      },
+      // {
+      //   to: "/admin/tickets",
+      //   icon: Ticket,
+      //   label: "Tickets (Global)",
+      // },
+      // {
+      //   to: "/admin/settings",
+      //   icon: Settings,
+      //   label: "Configuración",
+      // },
     ],
   },
   {
@@ -83,4 +93,3 @@ export const allNavItems: NavGroup[] = [
     ],
   },
 ];
-

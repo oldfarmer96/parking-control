@@ -207,11 +207,9 @@ const AdminLayout = () => {
           </div>
           {(!sidebarCollapsed || sidebarOpen) && (
             <div className="overflow-hidden animate-in fade-in slide-in-from-left-2 duration-500">
-              <h1 className="text-lg font-bold tracking-tight">
-                Parking<span className="text-primary">Control</span>
-              </h1>
-              <p className="text-[10px] uppercase tracking-widest text-primary font-black mt-1">
-                Administración
+              <h1 className="text-lg font-bold tracking-tight">Parqueo</h1>
+              <p className="text-[10px] tracking-widest text-primary font-black mt-1">
+                Unidad minera Huinchos Pataccocha
               </p>
             </div>
           )}
@@ -274,7 +272,10 @@ const AdminLayout = () => {
               </div>
             </div>
           ) : (
-            <div className="flex justify-center w-full" title={user.nombre_completo}>
+            <div
+              className="flex justify-center w-full"
+              title={user.nombre_completo}
+            >
               <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm shrink-0 shadow-inner">
                 {user.nombre_completo.charAt(0)}
               </div>
@@ -293,9 +294,7 @@ const AdminLayout = () => {
               <LogOut className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
             </div>
             {(!sidebarCollapsed || sidebarOpen) && (
-              <span className="font-semibold text-sm ml-3">
-                Cerrar Sesión
-              </span>
+              <span className="font-semibold text-sm ml-3">Cerrar Sesión</span>
             )}
           </button>
         </div>
@@ -338,7 +337,7 @@ const AdminLayout = () => {
 
           {/* Background Decorative Element */}
           <div className="absolute top-0 right-0 w-1/2 h-1/2 -z-10 pointer-events-none opacity-5">
-             <Car className="w-96 h-96 -rotate-12 translate-x-1/2 -translate-y-1/2 text-primary" />
+            <Car className="w-96 h-96 -rotate-12 translate-x-1/2 -translate-y-1/2 text-primary" />
           </div>
         </div>
       </main>
@@ -347,4 +346,3 @@ const AdminLayout = () => {
 };
 
 export default AdminLayout;
-
