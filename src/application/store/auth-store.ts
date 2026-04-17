@@ -1,18 +1,11 @@
+import type { Perfil } from "@/core/entities/auth.entity";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type UserRole = "admin" | "operador";
-
-export interface User {
-  correo: string;
-  rol: UserRole;
-  nombre_completo: string;
-}
-
 interface AuthStore {
-  user: User | null;
+  user: Perfil | null;
   isAuth: boolean;
-  setUser: (user: User) => void;
+  setUser: (user: Perfil) => void;
   logout: () => void;
 }
 
@@ -21,7 +14,7 @@ export const useAuthStore = create<AuthStore>()(
     (set) => ({
       user: null,
       isAuth: false,
-      setUser: (user: User) =>
+      setUser: (user: Perfil) =>
         set({
           user,
           isAuth: true,
