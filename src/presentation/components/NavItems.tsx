@@ -5,7 +5,6 @@ import {
   Ticket,
   PlusCircle,
   List,
-  Settings,
   type LucideIcon,
 } from "lucide-react";
 
@@ -70,17 +69,17 @@ export const allNavItems: NavGroup[] = [
       //   icon: Ticket,
       //   label: "Tickets (Global)",
       // },
-      {
-        label: "Configuraciones",
-        icon: Settings,
-        children: [
-          {
-            to: "/admin/settings/tickets",
-            icon: Ticket,
-            label: "Ticket",
-          },
-        ],
-      },
+      // {
+      //   label: "Configuraciones",
+      //   icon: Settings,
+      //   children: [
+      //     {
+      //       to: "/admin/settings/tickets",
+      //       icon: Ticket,
+      //       label: "Ticket",
+      //     },
+      //   ],
+      // },
     ],
   },
   {
