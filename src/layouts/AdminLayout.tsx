@@ -54,13 +54,10 @@ const AdminLayout = () => {
     );
   };
 
-  const NavLinkComponent = ({
-    item,
-    isMobileSide = false,
-  }: {
-    item: NavItem;
-    isMobileSide?: boolean;
-  }) => {
+  const renderNavLink = (
+    item: NavItem,
+    isMobileSide: boolean = false
+  ) => {
     const hasChildren = !!item.children;
     const isExpanded = expandedItems.includes(item.label);
     const isActive = item.to
@@ -72,7 +69,7 @@ const AdminLayout = () => {
 
     if (hasChildren) {
       return (
-        <div className="space-y-1">
+        <div key={item.label} className="space-y-1">
           <button
             onClick={() => toggleExpand(item.label)}
             className={cn(
@@ -144,6 +141,7 @@ const AdminLayout = () => {
 
     return (
       <Link
+        key={item.label}
         to={item.to!}
         onClick={() => isMobileSide && setSidebarOpen(false)}
         className={cn(
@@ -230,13 +228,7 @@ const AdminLayout = () => {
             sidebarCollapsed && !sidebarOpen && "px-2",
           )}
         >
-          {navItems.map((item) => (
-            <NavLinkComponent
-              key={item.label}
-              item={item}
-              isMobileSide={sidebarOpen}
-            />
-          ))}
+          {navItems.map((item) => renderNavLink(item, sidebarOpen))}
         </nav>
 
         {/* Sidebar Footer */}
