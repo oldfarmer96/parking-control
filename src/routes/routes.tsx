@@ -5,6 +5,7 @@ import {
   RegisterPage,
   OperatorPage,
   ReportPage,
+  ConfiguracionTicketPage,
 } from "./lazy";
 import OperatorLayout from "@/layouts/OperatorLayout";
 import AdminLayout from "@/layouts/AdminLayout";
@@ -64,6 +65,10 @@ export const router = createBrowserRouter([
       {
         path: "/user-register",
         element: <RegisterPage />,
+      },
+      {
+        path: "/admin/settings/tickets",
+        element: <ConfiguracionTicketPage />,
       },
     ],
   },
