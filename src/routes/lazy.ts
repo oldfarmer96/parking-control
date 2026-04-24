@@ -16,4 +16,7 @@ export const OperatorPage = lazy(
 export const ReportPage = lazy(
   () => import("@/presentation/features/reports/pages/ReportPage"),
 );
+export const ConfiguracionTicketPage = lazy(
+  () => import("@/presentation/features/admin/pages/ConfiguracionTicketPage"),
+);
 
