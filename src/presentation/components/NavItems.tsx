@@ -5,7 +5,6 @@ import {
   Ticket,
   PlusCircle,
   List,
-  Settings,
   type LucideIcon,
 } from "lucide-react";
 
