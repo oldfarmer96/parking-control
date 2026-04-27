@@ -17,11 +17,16 @@ class AuthApi implements AuthRepository {
 
     const { data: perfil, error: perfilError } = await supabase
       .from("perfiles")
-      .select("correo, rol, nombre_completo")
+      .select("id, correo, rol, nombre_completo, estado, fecha_creacion")
       .eq("id", data.user.id)
       .single();
 
     if (perfilError) throw new Error(perfilError.message);
+
+    if (!perfil.estado) {
+      await supabase.auth.signOut();
+      throw new Error("Tu cuenta está desactivada. Contacta al administrador.");
+    }
 
     return perfil;
   }

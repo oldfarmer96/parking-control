@@ -11,5 +11,14 @@ export const configApi = {
 
     if (error) throw new Error(error.message);
     return data;
+  },
+
+  async updateConfig(config: Partial<AppConfig>): Promise<void> {
+    const { error } = await supabase
+      .from("configuracion")
+      .update(config)
+      .eq("id", 1);
+
+    if (error) throw new Error(error.message);
   }
 };

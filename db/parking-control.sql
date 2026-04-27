@@ -12,6 +12,7 @@ CREATE TABLE public.perfiles (
   correo text NOT NULL,
   rol text NOT NULL CHECK (rol IN ('admin', 'operador')),
   nombre_completo text,
+  estado boolean NOT NULL DEFAULT true,
   fecha_creacion timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 

@@ -38,7 +38,7 @@ export const allNavItems: NavGroup[] = [
         exact: true,
       },
       {
-        label: "Operadores",
+        label: "Usuarios",
         icon: Users,
         children: [
           {
@@ -46,40 +46,35 @@ export const allNavItems: NavGroup[] = [
             icon: PlusCircle,
             label: "Registrar Nuevo",
           },
-          // {
-          //   to: "/admin/operators",
-          //   icon: List,
-          //   label: "Lista de Operadores",
-          // },
+          {
+            to: "/admin/users",
+            icon: List,
+            label: "Lista de Usuarios",
+          },
         ],
       },
       {
         label: "Reportes",
-        icon: Users,
+        icon: Ticket,
         children: [
           {
             to: "/reports",
-            icon: PlusCircle,
-            label: "Reportes",
+            icon: List,
+            label: "Ver Reportes",
           },
         ],
       },
-      // {
-      //   to: "/admin/tickets",
-      //   icon: Ticket,
-      //   label: "Tickets (Global)",
-      // },
-      // {
-      //   label: "Configuraciones",
-      //   icon: Settings,
-      //   children: [
-      //     {
-      //       to: "/admin/settings/tickets",
-      //       icon: Ticket,
-      //       label: "Ticket",
-      //     },
-      //   ],
-      // },
+      {
+        label: "Configuraciones",
+        icon: Ticket,
+        children: [
+          {
+            to: "/admin/settings/tickets",
+            icon: Ticket,
+            label: "Tickets",
+          },
+        ],
+      },
     ],
   },
   {

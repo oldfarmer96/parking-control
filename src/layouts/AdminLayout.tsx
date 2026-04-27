@@ -54,10 +54,7 @@ const AdminLayout = () => {
     );
   };
 
-  const renderNavLink = (
-    item: NavItem,
-    isMobileSide: boolean = false
-  ) => {
+  const renderNavLink = (item: NavItem, isMobileSide: boolean = false) => {
     const hasChildren = !!item.children;
     const isExpanded = expandedItems.includes(item.label);
     const isActive = item.to
@@ -207,7 +204,7 @@ const AdminLayout = () => {
             <div className="overflow-hidden animate-in fade-in slide-in-from-left-2 duration-500">
               <h1 className="text-lg font-bold tracking-tight">Parqueo</h1>
               <p className="text-[10px] tracking-widest text-primary font-black mt-1">
-                Unidad minera Huinchos Pataccocha
+                Huinchos Pataccocha
               </p>
             </div>
           )}
@@ -294,7 +291,7 @@ const AdminLayout = () => {
 
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col relative overflow-hidden">
-        <header className="h-16 bg-card/50 backdrop-blur-md border-b border-border/50 flex items-center px-4 lg:px-8 justify-between shrink-0 z-30">
+        <header className="h-16 bg-card/50 backdrop-blur-md border-b border-border/50 flex items-center px-4 lg:px-8 justify-between shrink-0 z-30 overflow-hidden">
           <div className="flex items-center gap-4">
             <button
               className="lg:hidden p-2 -ml-2 text-muted-foreground hover:text-foreground transition-colors"
@@ -322,7 +319,7 @@ const AdminLayout = () => {
 
         <div className="h-[2px] w-full bg-linear-to-r from-primary/50 via-primary/10 to-transparent shrink-0" />
 
-        <div className="flex-1 overflow-y-auto scroll-smooth relative p-4 lg:p-8 custom-scrollbar">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth relative p-4 lg:p-8 custom-scrollbar">
           <div className="max-w-7xl mx-auto">
             <Outlet />
           </div>
