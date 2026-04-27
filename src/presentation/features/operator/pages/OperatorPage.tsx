@@ -72,7 +72,7 @@ type TicketFormValues = z.output<typeof ticketSchema>;
 const OperatorPage = () => {
   const [activeTab, setActiveTab] = useState<"create" | "list">("create");
   const { ticketsQuery, createTicketMutation } = useTickets();
-  const { data: config, refetch: refetchConfig } = useConfig();
+  const { data: config, refetch: refetchConfig, isRefetching: isConfigRefetching, isLoading: isConfigLoading } = useConfig();
   // const [editingTicketId, setEditingTicketId] = useState<string | null>(null);
 
   const {
@@ -86,7 +86,7 @@ const OperatorPage = () => {
     resolver: zodResolver(ticketSchema),
     defaultValues: {
       estado: "PAGADO",
-      monto_cobrado: config?.precio_defecto || 33,
+      monto_cobrado: 0,
     },
   });
 
@@ -94,10 +94,10 @@ const OperatorPage = () => {
 
   // Sync default price when config loads or is refreshed
   useEffect(() => {
-    if (config?.precio_defecto && !watch("monto_cobrado")) {
+    if (config?.precio_defecto != null) {
       setValue("monto_cobrado", config.precio_defecto);
     }
-  }, [config, setValue, watch]);
+  }, [config, setValue]);
 
   const onSubmit = (data: TicketFormValues) => {
     createTicketMutation.mutate(data, {
@@ -194,11 +194,12 @@ const OperatorPage = () => {
                       type="button"
                       variant="ghost"
                       size="sm"
+                      disabled={isConfigRefetching || isConfigLoading}
                       onClick={() => refetchConfig()}
-                      className="h-6 px-1.5 text-[10px] text-primary hover:bg-primary/10 gap-1 font-bold"
+                      className="h-6 px-1.5 text-[10px] text-primary hover:bg-primary/10 gap-1 font-bold disabled:opacity-50"
                     >
-                      <RefreshCcw className="w-3 h-3" />
-                      ACTUALIZAR
+                      <RefreshCcw className={cn("w-3 h-3", (isConfigRefetching || isConfigLoading) && "animate-spin")} />
+                      {isConfigRefetching ? "CARGANDO..." : "ACTUALIZAR"}
                     </Button>
                   </div>
                   <div className="relative">

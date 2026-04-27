@@ -77,6 +77,30 @@ END;
 $$;
 
 -- ==============================================================================
+-- 5b. FUNCIÓN PARA ACTUALIZAR PRECIO POR DEFECTO (SOLO ADMIN)
+-- ==============================================================================
+CREATE OR REPLACE FUNCTION actualizar_precio_defecto(nuevo_precio numeric)
+RETURNS void
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+DECLARE
+  rol_usuario text;
+BEGIN
+  SELECT rol INTO rol_usuario FROM public.perfiles WHERE id = auth.uid() AND estado = true;
+
+  IF rol_usuario IS NULL OR rol_usuario != 'admin' THEN
+    RAISE EXCEPTION 'No tienes permisos para realizar esta acción';
+  END IF;
+
+  UPDATE public.configuracion
+  SET precio_defecto = nuevo_precio,
+      fecha_actualizacion = now()
+  WHERE id = 1;
+END;
+$$;
+
+-- ==============================================================================
 -- 6. TRIGGER PARA CREAR PERFIL AUTOMÁTICAMENTE
 -- ==============================================================================
 CREATE OR REPLACE FUNCTION public.manejar_nuevo_usuario()
