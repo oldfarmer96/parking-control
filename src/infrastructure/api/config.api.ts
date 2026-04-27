@@ -11,5 +11,15 @@ export const configApi = {
 
     if (error) throw new Error(error.message);
     return data;
-  }
+  },
+
+  async updateConfig(config: Partial<AppConfig>): Promise<void> {
+    if (config.precio_defecto == null) return;
+
+    const { error } = await supabase.rpc("actualizar_precio_defecto", {
+      nuevo_precio: config.precio_defecto,
+    });
+
+    if (error) throw new Error(error.message);
+  },
 };

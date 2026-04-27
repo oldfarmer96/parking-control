@@ -13,7 +13,10 @@ export interface RegisterData {
 }
 
 export interface Perfil {
+  id: string;
   correo: string;
   nombre_completo: string;
   rol: UserRole;
+  estado: boolean;
+  fecha_creacion: string;
 }

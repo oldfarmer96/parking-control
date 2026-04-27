@@ -13,7 +13,9 @@ import {
   AlertCircle,
   Loader2,
   Search,
+  RefreshCcw,
 } from "lucide-react";
+import { useEffect } from "react";
 import { Input } from "@/presentation/components/ui/input";
 import { Label } from "@/presentation/components/ui/label";
 import { Button } from "@/presentation/components/ui/button";
@@ -70,7 +72,7 @@ type TicketFormValues = z.output<typeof ticketSchema>;
 const OperatorPage = () => {
   const [activeTab, setActiveTab] = useState<"create" | "list">("create");
   const { ticketsQuery, createTicketMutation } = useTickets();
-  const { data: config } = useConfig();
+  const { data: config, refetch: refetchConfig, isRefetching: isConfigRefetching, isLoading: isConfigLoading } = useConfig();
   // const [editingTicketId, setEditingTicketId] = useState<string | null>(null);
 
   const {
@@ -84,18 +86,18 @@ const OperatorPage = () => {
     resolver: zodResolver(ticketSchema),
     defaultValues: {
       estado: "PAGADO",
-      monto_cobrado: config?.precio_defecto || 8,
+      monto_cobrado: 0,
     },
   });
 
   const currentStatus = watch("estado");
 
-  // Sync default price when config loads
-  useState(() => {
-    if (config?.precio_defecto) {
+  // Sync default price when config loads or is refreshed
+  useEffect(() => {
+    if (config?.precio_defecto != null) {
       setValue("monto_cobrado", config.precio_defecto);
     }
-  });
+  }, [config, setValue]);
 
   const onSubmit = (data: TicketFormValues) => {
     createTicketMutation.mutate(data, {
@@ -181,16 +183,34 @@ const OperatorPage = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="monto_cobrado">Precio (S/.)</Label>
+                  <div className="flex items-center justify-between">
+                    <Label
+                      htmlFor="monto_cobrado"
+                      className="text-xs font-semibold uppercase tracking-wider text-muted-foreground"
+                    >
+                      Precio (S/.)
+                    </Label>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      disabled={isConfigRefetching || isConfigLoading}
+                      onClick={() => refetchConfig()}
+                      className="h-6 px-1.5 text-[10px] text-primary hover:bg-primary/10 gap-1 font-bold disabled:opacity-50"
+                    >
+                      <RefreshCcw className={cn("w-3 h-3", (isConfigRefetching || isConfigLoading) && "animate-spin")} />
+                      {isConfigRefetching ? "CARGANDO..." : "ACTUALIZAR"}
+                    </Button>
+                  </div>
                   <div className="relative">
-                    <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/60" />
+                    <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-primary" />
                     <Input
                       id="monto_cobrado"
                       type="number"
                       step="0.1"
                       disabled
                       {...register("monto_cobrado")}
-                      className="pl-10 h-12 bg-background/50"
+                      className="pl-10 h-12 bg-background/50 border-primary/10 font-bold text-lg"
                     />
                   </div>
                 </div>

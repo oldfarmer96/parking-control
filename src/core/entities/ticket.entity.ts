@@ -8,6 +8,7 @@ export interface Ticket {
   estado: TicketStatus;
   notas: string | null;
   operador_id: string;
+  operador_nombre?: string;
   fecha_creacion: string;
 }
 

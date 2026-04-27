@@ -12,6 +12,7 @@ CREATE TABLE public.perfiles (
   correo text NOT NULL,
   rol text NOT NULL CHECK (rol IN ('admin', 'operador')),
   nombre_completo text,
+  estado boolean NOT NULL DEFAULT true,
   fecha_creacion timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
@@ -72,6 +73,30 @@ SECURITY DEFINER
 AS $$
 BEGIN
   ALTER SEQUENCE secuencia_numero_ticket RESTART WITH 1;
+END;
+$$;
+
+-- ==============================================================================
+-- 5b. FUNCIÓN PARA ACTUALIZAR PRECIO POR DEFECTO (SOLO ADMIN)
+-- ==============================================================================
+CREATE OR REPLACE FUNCTION actualizar_precio_defecto(nuevo_precio numeric)
+RETURNS void
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+DECLARE
+  rol_usuario text;
+BEGIN
+  SELECT rol INTO rol_usuario FROM public.perfiles WHERE id = auth.uid() AND estado = true;
+
+  IF rol_usuario IS NULL OR rol_usuario != 'admin' THEN
+    RAISE EXCEPTION 'No tienes permisos para realizar esta acción';
+  END IF;
+
+  UPDATE public.configuracion
+  SET precio_defecto = nuevo_precio,
+      fecha_actualizacion = now()
+  WHERE id = 1;
 END;
 $$;
 

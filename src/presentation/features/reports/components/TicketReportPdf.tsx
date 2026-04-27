@@ -104,9 +104,7 @@ export const TicketReportPdf = ({ tickets, summary, dateRange }: Props) => (
     <Page size="A4" style={styles.page}>
       {/* Header Section */}
       <View style={styles.header}>
-        <Text style={styles.companyName}>
-          Unidad Minera Huinchos Pataccocha
-        </Text>
+        <Text style={styles.companyName}>Parqueo Huinchos Pataccocha</Text>
         <Text style={styles.reportTitle}>
           Control de Accesos y Parqueo - Reporte de Operaciones
         </Text>
@@ -165,7 +163,10 @@ export const TicketReportPdf = ({ tickets, summary, dateRange }: Props) => (
               {format(new Date(ticket.fecha_creacion), "dd/MM/yy HH:mm")}
             </Text>
             <Text style={[styles.col4, styles.rowText]}>
-              S/ {ticket.estado === "PAGADO" ? Number(ticket.monto_cobrado).toFixed(2) : "0.00"}
+              S/{" "}
+              {ticket.estado === "PAGADO"
+                ? Number(ticket.monto_cobrado).toFixed(2)
+                : "0.00"}
             </Text>
             <Text
               style={[

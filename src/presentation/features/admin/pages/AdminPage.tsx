@@ -1,4 +1,4 @@
-import { DollarSign, Clock, ArrowRight, Loader2, Calendar } from "lucide-react";
+import { DollarSign, Clock, ArrowRight, Loader2, Calendar, BarChart3 } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -9,7 +9,17 @@ import {
 import { Button } from "@/presentation/components/ui/button";
 import { useDashboard } from "../hooks/useDashboard";
 import { format } from "date-fns";
+import { es } from "date-fns/locale";
 import { useNavigate } from "react-router-dom";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 const AdminPage = () => {
   const { data, isLoading, isError } = useDashboard();
@@ -50,8 +60,8 @@ const AdminPage = () => {
         <div className="flex items-center gap-3">
           <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-card/40 backdrop-blur-md rounded-xl border border-border/50">
             <Calendar className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium">
-              {format(new Date(), "eeee, d 'de' MMMM")}
+            <span className="text-sm font-medium capitalize">
+              {format(new Date(), "eeee, d 'de' MMMM", { locale: es })}
             </span>
           </div>
           <Button
@@ -63,8 +73,8 @@ const AdminPage = () => {
         </div>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* Stats Grid + Weekly Chart */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <StatCard
           title="Recaudación Mensual"
           value={`S/ ${(data?.totalRevenue || 0).toFixed(2)}`}
@@ -72,20 +82,71 @@ const AdminPage = () => {
           icon={<DollarSign size={22} />}
           color="text-emerald-500 bg-emerald-500/10"
         />
-        {/* <StatCard
-          title="Ocupación Actual"
-          value={`${data?.activeTickets} Vehículos`}
-          description="Dentro del parqueadero"
-          icon={<Car size={22} />}
-          color="text-blue-500 bg-blue-500/10"
-        />
-        <StatCard
-          title="Personal"
-          value={`${data?.totalOperators} Operadores`}
-          description="Personal registrado"
-          icon={<Users size={22} />}
-          color="text-purple-500 bg-purple-500/10"
-        /> */}
+
+        {/* Weekly Revenue Histogram */}
+        <Card className="border-none shadow-xl bg-card/65 backdrop-blur-md overflow-hidden relative">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-emerald-500/50 via-emerald-500 to-emerald-500/50" />
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Recaudación Semanal
+                </p>
+                <p className="text-xs text-muted-foreground/60 mt-0.5">
+                  Lunes a Domingo — semana actual
+                </p>
+              </div>
+              <div className="p-2 rounded-xl text-emerald-500 bg-emerald-500/10">
+                <BarChart3 size={18} />
+              </div>
+            </div>
+            <div className="h-[160px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={data?.weeklyRevenue || []}
+                  margin={{ top: 5, right: 5, left: -20, bottom: 0 }}
+                >
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    vertical={false}
+                    stroke="#6b728033"
+                  />
+                  <XAxis
+                    dataKey="dia"
+                    tick={{ fontSize: 12, fontWeight: 600, fill: "#10b981" }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <YAxis
+                    tick={{ fontSize: 10, fill: "#6b7280" }}
+                    axisLine={false}
+                    tickLine={false}
+                    tickFormatter={(v: number) => `S/${v}`}
+                  />
+                  <Tooltip
+                    cursor={{ fill: "#10b98115" }}
+                    contentStyle={{
+                      background: "#1e293b",
+                      border: "1px solid #10b98140",
+                      borderRadius: "8px",
+                      boxShadow: "0 4px 20px rgba(0,0,0,0.25)",
+                      fontSize: "12px",
+                      color: "#f1f5f9",
+                    }}
+                    formatter={(value) => [`S/ ${Number(value ?? 0).toFixed(2)}`, "Recaudado"]}
+                    labelFormatter={(label) => `Día: ${label}`}
+                  />
+                  <Bar
+                    dataKey="monto"
+                    fill="#10b981"
+                    radius={[4, 4, 0, 0]}
+                    maxBarSize={36}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">

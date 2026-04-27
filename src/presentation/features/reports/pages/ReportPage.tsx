@@ -7,11 +7,11 @@ import {
   FileText,
   Search,
   Filter,
-  ChevronRight,
   TrendingUp,
   Ticket as TicketIcon,
   DollarSign,
   Loader2,
+  UserCircle,
 } from "lucide-react";
 import { Button } from "@/presentation/components/ui/button";
 import { Input } from "@/presentation/components/ui/input";
@@ -208,7 +208,7 @@ const ReportPage = () => {
                   <th className="p-4 font-semibold text-sm">Fecha/Hora</th>
                   <th className="p-4 font-semibold text-sm">Monto</th>
                   <th className="p-4 font-semibold text-sm">Estado</th>
-                  <th className="p-4 font-semibold text-sm">Acciones</th>
+                  <th className="p-4 font-semibold text-sm">Operador</th>
                 </tr>
               </thead>
               <tbody>
@@ -262,14 +262,11 @@ const ReportPage = () => {
                       <td className="p-4 text-sm">
                         <StatusBadge status={ticket.estado} />
                       </td>
-                      <td className="p-4 text-sm text-right">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 opacity-40 hover:opacity-100"
-                        >
-                          <ChevronRight className="h-4 w-4" />
-                        </Button>
+                      <td className="p-4 text-sm text-muted-foreground">
+                        <div className="flex items-center gap-1.5">
+                          <UserCircle className="h-3.5 w-3.5" />
+                          {ticket.operador_nombre || "Sistema"}
+                        </div>
                       </td>
                     </tr>
                   ))
