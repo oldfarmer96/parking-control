@@ -86,7 +86,7 @@ const OperatorPage = () => {
     resolver: zodResolver(ticketSchema),
     defaultValues: {
       estado: "PAGADO",
-      monto_cobrado: config?.precio_defecto || 8,
+      monto_cobrado: config?.precio_defecto || 33,
     },
   });
 
@@ -184,11 +184,16 @@ const OperatorPage = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="monto_cobrado" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Precio (S/.)</Label>
-                    <Button 
-                      type="button" 
-                      variant="ghost" 
-                      size="sm" 
+                    <Label
+                      htmlFor="monto_cobrado"
+                      className="text-xs font-semibold uppercase tracking-wider text-muted-foreground"
+                    >
+                      Precio (S/.)
+                    </Label>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
                       onClick={() => refetchConfig()}
                       className="h-6 px-1.5 text-[10px] text-primary hover:bg-primary/10 gap-1 font-bold"
                     >
