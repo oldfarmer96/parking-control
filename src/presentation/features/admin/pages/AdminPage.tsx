@@ -133,8 +133,8 @@ const AdminPage = () => {
                       fontSize: "12px",
                       color: "#f1f5f9",
                     }}
-                    formatter={(value: number) => [`S/ ${value.toFixed(2)}`, "Recaudado"]}
-                    labelFormatter={(label: string) => `Día: ${label}`}
+                    formatter={(value) => [`S/ ${Number(value ?? 0).toFixed(2)}`, "Recaudado"]}
+                    labelFormatter={(label) => `Día: ${label}`}
                   />
                   <Bar
                     dataKey="monto"
