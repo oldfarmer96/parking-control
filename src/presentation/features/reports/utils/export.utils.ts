@@ -9,6 +9,7 @@ export const exportToExcel = (tickets: Ticket[], fileName = "reporte-tickets") =
     "Monto": t.estado === "PAGADO" ? t.monto_cobrado : 0,
     "Fecha": format(new Date(t.fecha_creacion), "dd/MM/yyyy HH:mm"),
     "Estado": t.estado,
+    "Operador": t.operador_nombre || "Sistema",
     "Notas": t.notas || ""
   }));
 

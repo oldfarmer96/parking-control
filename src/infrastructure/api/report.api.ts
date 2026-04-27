@@ -6,7 +6,10 @@ export const reportApi = {
   async getReportData(filter: ReportFilter): Promise<ReportData> {
     let query = supabase
       .from("tickets")
-      .select("*")
+      .select(`
+        *,
+        perfiles (nombre_completo)
+      `)
       .gte("fecha_creacion", filter.startDate)
       .lte("fecha_creacion", filter.endDate)
       .order("fecha_creacion", { ascending: false });
@@ -23,7 +26,11 @@ export const reportApi = {
 
     if (error) throw new Error(error.message);
 
-    const tickets = data as Ticket[];
+    const tickets = (data as any[]).map((t) => ({
+      ...t,
+      operador_nombre: t.perfiles?.nombre_completo || "Sistema",
+      perfiles: undefined,
+    })) as Ticket[];
     
     // Calculate summary
     const summary: ReportSummary = {
