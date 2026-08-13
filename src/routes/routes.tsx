@@ -7,6 +7,8 @@ import {
   ReportPage,
   ConfiguracionTicketPage,
   UsersPage,
+  IngresosPage,
+  ColaPublicaPage,
 } from "./lazy";
 import OperatorLayout from "@/layouts/OperatorLayout";
 import AdminLayout from "@/layouts/AdminLayout";
@@ -17,6 +19,7 @@ import LazyLoadingPage from "@/presentation/components/LazyLoadingPage";
 import AuthGuard from "@/guards/AuthGuard";
 import RoleGuard from "@/guards/RoleGuard";
 import NotFound from "@/presentation/components/NotFound";
+import PublicLayout from "@/layouts/PublicLayout";
 
 export const router = createBrowserRouter([
   {
@@ -28,6 +31,14 @@ export const router = createBrowserRouter([
       </GuestGuard>
     ),
     children: [{ path: "/login", element: <LoginPage /> }],
+  },
+  {
+    element: (
+      <Suspense fallback={<LazyLoadingPage />}>
+        <PublicLayout />
+      </Suspense>
+    ),
+    children: [{ path: "/cola", element: <ColaPublicaPage /> }],
   },
   {
     element: (
@@ -43,6 +54,10 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <OperatorPage />,
+      },
+      {
+        path: "/ingresos",
+        element: <IngresosPage />,
       },
     ],
   },
