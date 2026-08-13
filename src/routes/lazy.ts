@@ -13,6 +13,12 @@ export const RegisterPage = lazy(
 export const OperatorPage = lazy(
   () => import("@/presentation/features/operator/pages/OperatorPage"),
 );
+export const IngresosPage = lazy(
+  () => import("@/presentation/features/operator/pages/IngresosPage"),
+);
+export const ColaPublicaPage = lazy(
+  () => import("@/presentation/features/public/pages/ColaPublicaPage"),
+);
 export const ReportPage = lazy(
   () => import("@/presentation/features/reports/pages/ReportPage"),
 );
