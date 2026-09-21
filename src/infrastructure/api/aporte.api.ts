@@ -5,8 +5,11 @@ import type {
   AportePlaca,
   AporteResumen,
   CambiarEstadoAporteDTO,
+  CorregirEstadoAporteDTO,
   GuardarAporteDTO,
+  RegistrarEstadoAporteDesdeTicketDTO,
   RegistrarEstadoAportePlacaDTO,
+  ResultadoCorreccionAporte,
 } from "@/core/entities/aporte.entity";
 
 type AporteConResultados = Aporte & {
@@ -78,5 +81,34 @@ export const aporteApi = {
     );
     if (error) throw new Error(error.message);
     return data as AportePlaca;
+  },
+
+  async registrarEstadoDesdeTicket(
+    dto: RegistrarEstadoAporteDesdeTicketDTO,
+  ): Promise<AportePlaca> {
+    const { data, error } = await supabase.rpc(
+      "registrar_estado_aporte_desde_ticket",
+      {
+        p_ticket_id: dto.ticketId,
+        p_estado: dto.estado,
+      },
+    );
+    if (error) throw new Error(error.message);
+    return data as AportePlaca;
+  },
+
+  async corregirEstadoDesdeTicket(
+    dto: CorregirEstadoAporteDTO,
+  ): Promise<ResultadoCorreccionAporte> {
+    const { data, error } = await supabase.rpc(
+      "corregir_estado_aporte_desde_ticket",
+      {
+        p_ticket_id: dto.ticketId,
+        p_estado_nuevo: dto.estadoNuevo,
+        p_motivo: dto.motivo,
+      },
+    );
+    if (error) throw new Error(error.message);
+    return data as ResultadoCorreccionAporte;
   },
 };

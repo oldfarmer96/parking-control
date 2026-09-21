@@ -3,7 +3,9 @@ import { toast } from "sonner";
 import type {
   ActualizarAporteDTO,
   CambiarEstadoAporteDTO,
+  CorregirEstadoAporteDTO,
   GuardarAporteDTO,
+  RegistrarEstadoAporteDesdeTicketDTO,
   RegistrarEstadoAportePlacaDTO,
 } from "@/core/entities/aporte.entity";
 import { aporteApi } from "@/infrastructure/api/aporte.api";
@@ -25,6 +27,7 @@ const useAporteMutation = <T,>(
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ["aportes"] }),
         queryClient.invalidateQueries({ queryKey: ["ingresos", "activos"] }),
+        queryClient.invalidateQueries({ queryKey: ["reports"] }),
       ]);
       toast.success(successMessage);
     },
@@ -51,4 +54,16 @@ export const useRegistrarEstadoAportePlaca = () =>
   useAporteMutation<RegistrarEstadoAportePlacaDTO>(
     aporteApi.registrarEstadoPlaca,
     "Estado del aporte registrado",
+  );
+
+export const useRegistrarEstadoAporteDesdeTicket = () =>
+  useAporteMutation<RegistrarEstadoAporteDesdeTicketDTO>(
+    aporteApi.registrarEstadoDesdeTicket,
+    "Aporte regularizado correctamente",
+  );
+
+export const useCorregirEstadoAporte = () =>
+  useAporteMutation<CorregirEstadoAporteDTO>(
+    aporteApi.corregirEstadoDesdeTicket,
+    "Estado del aporte corregido",
   );

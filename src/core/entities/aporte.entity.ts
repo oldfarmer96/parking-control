@@ -1,10 +1,12 @@
 export type AporteEstado = "ACTIVO" | "INACTIVO";
 export type AportePlacaEstado = "PAGADO" | "PREFERENCIAL";
+export type AporteVisualEstado = "PENDIENTE" | AportePlacaEstado;
 
 export interface AportePlaca {
   id: string;
   aporte_id: string;
   ingreso_id: string | null;
+  ticket_id: string | null;
   placa: string;
   placa_normalizada: string;
   estado: AportePlacaEstado;
@@ -46,4 +48,25 @@ export interface CambiarEstadoAporteDTO {
 export interface RegistrarEstadoAportePlacaDTO {
   ingresoId: string;
   estado: AportePlacaEstado;
+}
+
+export interface RegistrarEstadoAporteDesdeTicketDTO {
+  ticketId: string;
+  estado: AportePlacaEstado;
+}
+
+export interface CorregirEstadoAporteDTO {
+  ticketId: string;
+  estadoNuevo: AporteVisualEstado;
+  motivo: string;
+}
+
+export interface ResultadoCorreccionAporte {
+  aporte_id: string;
+  placa: string;
+  placa_normalizada: string;
+  estado_anterior: AporteVisualEstado;
+  estado_nuevo: AporteVisualEstado;
+  monto_anterior: number;
+  monto_nuevo: number;
 }
