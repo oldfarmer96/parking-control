@@ -5,6 +5,7 @@ import {
   Ticket,
   PlusCircle,
   List,
+  HandCoins,
   type LucideIcon,
 } from "lucide-react";
 
@@ -72,6 +73,11 @@ export const allNavItems: NavGroup[] = [
             to: "/admin/settings/tickets",
             icon: Ticket,
             label: "Tickets",
+          },
+          {
+            to: "/admin/settings/aportes",
+            icon: HandCoins,
+            label: "Aportes",
           },
         ],
       },

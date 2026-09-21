@@ -6,6 +6,7 @@ import {
   OperatorPage,
   ReportPage,
   ConfiguracionTicketPage,
+  AportesPage,
   UsersPage,
   IngresosPage,
   ColaPublicaPage,
@@ -85,6 +86,10 @@ export const router = createBrowserRouter([
       {
         path: "/admin/settings/tickets",
         element: <ConfiguracionTicketPage />,
+      },
+      {
+        path: "/admin/settings/aportes",
+        element: <AportesPage />,
       },
       {
         path: "/admin/users",

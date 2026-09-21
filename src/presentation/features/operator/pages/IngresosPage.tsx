@@ -18,6 +18,7 @@ import {
 import type {
   HistorialIngresosFilters,
   IngresoVehiculo,
+  IngresoVehiculoConAporte,
 } from "@/core/entities/ingreso.entity";
 import { cn } from "@/lib/utils";
 import { Button } from "@/presentation/components/ui/button";
@@ -43,6 +44,7 @@ import {
 } from "@/utils/ingreso-format";
 import GenerarTicketIngresoDialog from "../components/GenerarTicketIngresoDialog";
 import SalidaSinTicketDialog from "../components/SalidaSinTicketDialog";
+import EstadoAporteIngreso from "../components/EstadoAporteIngreso";
 
 const PAGE_SIZE = 20;
 
@@ -107,7 +109,7 @@ const ActiveRow = ({
   ingreso,
   position,
 }: {
-  ingreso: IngresoVehiculo;
+  ingreso: IngresoVehiculoConAporte;
   position: number;
 }) => (
   <Card className="relative overflow-hidden border-green-500/20 bg-green-500/5 shadow-sm">
@@ -138,6 +140,7 @@ const ActiveRow = ({
           {formatDuration(ingreso.fecha_entrada)}
         </strong>
       </div>
+      <EstadoAporteIngreso ingreso={ingreso} />
       <div className="flex flex-col gap-2 sm:flex-row">
         <GenerarTicketIngresoDialog ingreso={ingreso} />
         <SalidaSinTicketDialog ingreso={ingreso} />

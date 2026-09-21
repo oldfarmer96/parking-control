@@ -1,4 +1,5 @@
 import type { Ticket, TicketStatus } from "@/core/entities/ticket.entity";
+import type { AportePlacaEstado } from "@/core/entities/aporte.entity";
 
 export type IngresoEstado =
   | "DENTRO"
@@ -19,6 +20,15 @@ export interface IngresoVehiculo {
   atendido_por: string | null;
   fecha_creacion: string;
   fecha_actualizacion: string;
+}
+
+export interface IngresoVehiculoConAporte extends IngresoVehiculo {
+  aporte_id: string | null;
+  aporte_nombre: string | null;
+  aporte_monto: number | null;
+  aporte_estado: AportePlacaEstado | null;
+  aporte_monto_pagado: number | null;
+  aporte_fecha_registro: string | null;
 }
 
 export interface ColaPublicaItem {
