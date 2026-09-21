@@ -1,6 +1,7 @@
 import { useReports } from "../hooks/useReports";
-import { exportToExcel } from "../utils/export.utils";
+import { exportAportesToExcel, exportToExcel } from "../utils/export.utils";
 import { TicketReportPdf } from "../components/TicketReportPdf";
+import { AporteReportPdf } from "../components/AporteReportPdf";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import {
   FileSpreadsheet,
@@ -12,6 +13,7 @@ import {
   DollarSign,
   Loader2,
   UserCircle,
+  HandCoins,
 } from "lucide-react";
 import { Button } from "@/presentation/components/ui/button";
 import { Input } from "@/presentation/components/ui/input";
@@ -29,13 +31,41 @@ import {
   SelectValue,
 } from "@/presentation/components/ui/select";
 import { format } from "date-fns";
+import { useMemo } from "react";
+import type { ReactNode } from "react";
+import type { TicketStatus } from "@/core/entities/ticket.entity";
+import RegularizarAporteTicket, {
+  ENABLE_TEMPORARY_APORTE_BACKFILL,
+} from "../components/RegularizarAporteTicket";
+
+const normalizePlate = (plate: string) =>
+  plate.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
 
 const ReportPage = () => {
   const { data, isLoading, filters, updateFilters } = useReports();
+  const aporteResultsByPlate = useMemo(
+    () =>
+      new Map(
+        (data?.aporteActivo?.resultados ?? []).map((resultado) => [
+          resultado.placa_normalizada,
+          resultado,
+        ]),
+      ),
+    [data?.aporteActivo?.resultados],
+  );
 
   const handleExportExcel = () => {
     if (data?.tickets) {
       exportToExcel(data.tickets);
+    }
+  };
+
+  const handleExportAportesExcel = () => {
+    if (data?.aporteReport) {
+      exportAportesToExcel(data.aporteReport, {
+        start: filters.startDate,
+        end: filters.endDate,
+      });
     }
   };
 
@@ -58,7 +88,7 @@ const ReportPage = () => {
             disabled={isLoading || !data?.tickets.length}
           >
             <FileSpreadsheet className="mr-2 h-4 w-4 text-emerald-500" />
-            Excel
+            Excel tickets
           </Button>
 
           {data && (
@@ -78,7 +108,7 @@ const ReportPage = () => {
                   disabled={isLoading || !data?.tickets.length || loading}
                 >
                   <FileText className="mr-2 h-4 w-4" />
-                  PDF
+                  PDF tickets
                 </Button>
               )}
             </PDFDownloadLink>
@@ -127,7 +157,7 @@ const ReportPage = () => {
                 value={filters.status || "ALL"}
                 onValueChange={(val) =>
                   updateFilters({
-                    status: val === "ALL" ? undefined : (val as any),
+                    status: val === "ALL" ? undefined : (val as TicketStatus),
                   })
                 }
               >
@@ -156,6 +186,107 @@ const ReportPage = () => {
                   className="h-11 pl-10 bg-background/50 border-border/50 focus:ring-primary/20"
                 />
               </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Active contribution report */}
+      <Card className="relative overflow-hidden border border-teal-500/20 bg-linear-to-br from-teal-500/10 via-card/80 to-emerald-500/5 shadow-xl">
+        <div className="absolute inset-y-0 left-0 w-1 bg-linear-to-b from-teal-400 to-emerald-600" />
+        <CardContent className="p-5 sm:p-6">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex min-w-0 items-start gap-3">
+              <div className="rounded-xl bg-teal-500/15 p-2.5 text-teal-600 dark:text-teal-400">
+                <HandCoins className="h-5 w-5" />
+              </div>
+              <div className="min-w-0">
+                <h2 className="text-lg font-semibold">
+                  Reporte del aporte en curso
+                </h2>
+                {data?.aporteReport ? (
+                  <>
+                    <p className="mt-1 truncate text-sm font-medium text-teal-700 dark:text-teal-300">
+                      {data.aporteReport.nombre} · S/{" "}
+                      {data.aporteReport.monto.toFixed(2)}
+                    </p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Usa el rango de fechas y la placa de los filtros
+                      superiores. La fecha corresponde al último cambio del
+                      estado.
+                    </p>
+                  </>
+                ) : (
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    No existe un aporte activo para generar el reporte.
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center">
+              <div className="rounded-lg border border-teal-500/15 bg-background/60 px-3 py-2 text-center">
+                <p className="text-[10px] uppercase tracking-wide text-muted-foreground">
+                  Pagados
+                </p>
+                <p className="font-bold">
+                  {data?.aporteReport?.summary.pagados ?? 0}
+                </p>
+              </div>
+              <div className="rounded-lg border border-violet-500/15 bg-background/60 px-3 py-2 text-center">
+                <p className="text-[10px] uppercase tracking-wide text-muted-foreground">
+                  Preferenciales
+                </p>
+                <p className="font-bold">
+                  {data?.aporteReport?.summary.preferenciales ?? 0}
+                </p>
+              </div>
+              <div className="col-span-2 rounded-lg border border-emerald-500/15 bg-background/60 px-3 py-2 text-center sm:col-span-1">
+                <p className="text-[10px] uppercase tracking-wide text-muted-foreground">
+                  Recaudado
+                </p>
+                <p className="font-bold text-emerald-600">
+                  S/{" "}
+                  {(data?.aporteReport?.summary.totalRecaudado ?? 0).toFixed(2)}
+                </p>
+              </div>
+              <Button
+                variant="outline"
+                onClick={handleExportAportesExcel}
+                className="h-11 bg-background/70"
+                disabled={isLoading || !data?.aporteReport?.resultados.length}
+              >
+                <FileSpreadsheet className="mr-2 h-4 w-4 text-emerald-500" />
+                Excel aportes
+              </Button>
+              {data?.aporteReport ? (
+                <PDFDownloadLink
+                  document={
+                    <AporteReportPdf
+                      report={data.aporteReport}
+                      dateRange={{
+                        start: filters.startDate,
+                        end: filters.endDate,
+                      }}
+                    />
+                  }
+                  fileName={`reporte-aporte-${format(new Date(), "yyyyMMdd")}.pdf`}
+                >
+                  {({ loading }) => (
+                    <Button
+                      className="h-11 w-full bg-teal-700 text-white hover:bg-teal-800"
+                      disabled={
+                        isLoading ||
+                        !data.aporteReport?.resultados.length ||
+                        loading
+                      }
+                    >
+                      <FileText className="mr-2 h-4 w-4" />
+                      PDF aportes
+                    </Button>
+                  )}
+                </PDFDownloadLink>
+              ) : null}
             </div>
           </div>
         </CardContent>
@@ -209,12 +340,20 @@ const ReportPage = () => {
                   <th className="p-4 font-semibold text-sm">Monto</th>
                   <th className="p-4 font-semibold text-sm">Estado</th>
                   <th className="p-4 font-semibold text-sm">Operador</th>
+                  {ENABLE_TEMPORARY_APORTE_BACKFILL ? (
+                    <th className="p-4 font-semibold text-sm">
+                      Acciones aporte
+                    </th>
+                  ) : null}
                 </tr>
               </thead>
               <tbody>
                 {isLoading ? (
                   <tr>
-                    <td colSpan={6} className="p-20 text-center">
+                    <td
+                      colSpan={ENABLE_TEMPORARY_APORTE_BACKFILL ? 7 : 6}
+                      className="p-20 text-center"
+                    >
                       <div className="flex flex-col items-center gap-2">
                         <Loader2 className="h-8 w-8 animate-spin text-primary" />
                         <span className="text-muted-foreground">
@@ -226,7 +365,7 @@ const ReportPage = () => {
                 ) : data?.tickets.length === 0 ? (
                   <tr>
                     <td
-                      colSpan={6}
+                      colSpan={ENABLE_TEMPORARY_APORTE_BACKFILL ? 7 : 6}
                       className="p-20 text-center text-muted-foreground"
                     >
                       No se encontraron resultados para los filtros
@@ -268,6 +407,17 @@ const ReportPage = () => {
                           {ticket.operador_nombre || "Sistema"}
                         </div>
                       </td>
+                      {ENABLE_TEMPORARY_APORTE_BACKFILL ? (
+                        <td className="p-4 text-sm">
+                          <RegularizarAporteTicket
+                            ticket={ticket}
+                            aporte={data.aporteActivo}
+                            resultado={aporteResultsByPlate.get(
+                              normalizePlate(ticket.placa),
+                            )}
+                          />
+                        </td>
+                      ) : null}
                     </tr>
                   ))
                 )}
@@ -280,8 +430,22 @@ const ReportPage = () => {
   );
 };
 
-const SummaryCard = ({ title, value, icon, trend, color }: any) => (
-  <Card className="border-none bg-card/60 backdrop-blur-xl shadow-lg hover:translate-y-[-2px] transition-transform">
+interface SummaryCardProps {
+  title: string;
+  value: string;
+  icon: ReactNode;
+  trend: string;
+  color: string;
+}
+
+const SummaryCard = ({
+  title,
+  value,
+  icon,
+  trend,
+  color,
+}: SummaryCardProps) => (
+  <Card className="border-none bg-card/60 backdrop-blur-xl shadow-lg hover:-translate-y-0.5 transition-transform">
     <CardContent className="p-6">
       <div className="flex items-center justify-between">
         <div className={`p-2 rounded-xl ${color}`}>{icon}</div>

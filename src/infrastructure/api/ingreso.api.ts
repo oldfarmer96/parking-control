@@ -6,6 +6,7 @@ import type {
   HistorialIngresosFilters,
   HistorialIngresosResult,
   IngresoVehiculo,
+  IngresoVehiculoConAporte,
   MovimientoPublico,
   ResultadoTicketDesdeIngreso,
   SalidaSinTicketDTO,
@@ -14,16 +15,20 @@ import type {
 const normalizeRows = (rows: IngresoVehiculo[] | null) => rows ?? [];
 
 export const ingresoApi = {
-  async getActivos(): Promise<IngresoVehiculo[]> {
-    const { data, error } = await supabase
-      .from("ingresos_vehiculos")
-      .select("*")
-      .eq("estado", "DENTRO")
-      .order("fecha_entrada", { ascending: true })
-      .order("orden_llegada", { ascending: true });
+  async getActivos(): Promise<IngresoVehiculoConAporte[]> {
+    const { data, error } = await supabase.rpc(
+      "obtener_ingresos_activos_con_aporte",
+    );
 
     if (error) throw new Error(error.message);
-    return normalizeRows(data as IngresoVehiculo[] | null);
+    return (data ?? []).map((row: IngresoVehiculoConAporte) => ({
+      ...row,
+      aporte_monto: row.aporte_monto == null ? null : Number(row.aporte_monto),
+      aporte_monto_pagado:
+        row.aporte_monto_pagado == null
+          ? null
+          : Number(row.aporte_monto_pagado),
+    })) as IngresoVehiculoConAporte[];
   },
 
   async getHistorial(
